@@ -1,0 +1,19 @@
+// ion-content, ion-toolbar{
+//     --background: #f2f2f2;
+//   }
+
+ion-item {
+  --padding-start: 5px;
+  --inner-padding-start: 5px;
+  --background: rgba(0,0,0,0);
+  --border-color: rgba(0,0,0,0);
+}
+
+// ion-item {
+//   --background: transparent!important;
+//   --border-color:transparent!important;
+// }
+
+ion-list {
+  --ion-item-background: transparent;
+}

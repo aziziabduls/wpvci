@@ -1,0 +1,288 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button color="danger" (click)="goToProfile()">
+        <ion-icon slot="icon-only" ios="person-outline" md="person-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Home
+    </ion-title>
+    <!-- <ion-buttons *ngIf="actButton" slot="primary">
+      <ion-button color="danger" (click)="getDataUser()">
+        <ion-icon slot="icon-only" ios="time-outline" md="time-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-buttons slot="primary" style="display: none;">
+      <ion-button color="danger" (click)="logout()">
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+  <ion-header class="ion-padding-top" collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid class="ion-padding-top">
+    <ion-row>
+      <ion-col size="6">
+        <ion-button class="mainButton" expand="block" color="dark" size="large" (click)="takePicture()" >
+          <div>
+            <ion-icon name="camera" slot="start" size="large"></ion-icon><br>
+            Capture image
+          </div>
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button class="mainButton" expand="block" color="dark" size="large" (click)="getCurrentPosition()" [disabled]="geoButton">
+          <div>
+            <ion-icon name="locate" slot="start" size="large"></ion-icon><br>
+            Get position
+          </div>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-img class="ion-padding-top" *ngIf="myImage" [src]="myImage"></ion-img>
+
+  <!-- present the geolocation information -->
+  <ion-card *ngIf="position">
+    <ion-card-content>
+      <ion-text *ngIf="position.coords.latitude" color="success" class="ion-text-center">
+        <ion-icon name="locate" slot="start"></ion-icon>
+        <p>Location is on</p>
+      </ion-text>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet Name</ion-label>
+        <ion-input type="text" [(ngModel)]="outlet_name"></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet Address</ion-label>
+        <ion-textarea type="text" [(ngModel)]="outlet_address"></ion-textarea>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet City</ion-label>
+        <ion-input type="text" [(ngModel)]="outlet_city"></ion-input>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="stacked">Latitiude</ion-label>
+        <ion-input type="text" value="{{ position.coords.latitude }}" readonly></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Longitude</ion-label>
+        <ion-input type="text" value="{{ position.coords.longitude }}" readonly></ion-input>
+      </ion-item> -->
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Netto Order</ion-label>
+        <ion-input type="number" [(ngModel)]="qtyItem" (ionChange)='onChangeTime($event)'></ion-input>
+      </ion-item>
+
+      <br>
+
+      <div class="ion-padding-top">
+        <ion-button (click)="sendTransaction()" expand="block" [disabled]="sendButton">
+          Send Data
+        </ion-button> 
+      </div>
+
+      <div class="ion-padding-top">
+        <ion-button (click)="discardTrans()" expand="block" fill="clear">
+          Discard
+        </ion-button> 
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header lines="none">
+      <ion-label>Recent</ion-label>
+    </ion-list-header>
+    <ion-item detail
+      *ngFor="let trans of trans"
+      (click)="showPanesDetail(
+        trans.transaction_id,
+        trans.username,
+        trans.code_sales,
+        trans.branch_name,
+        trans.depo_name,
+        trans.outlet_name,
+        trans.outlet_address,
+        trans.outlet_city,
+        trans.latitude,
+        trans.longitude,
+        trans.netto_order,
+        trans.created_date,
+        trans.confirm_date,
+        trans.status
+        )">
+      <ion-icon slot="start" name="storefront-outline"></ion-icon>
+      <ion-label>
+        <p>{{trans.transaction_id}}</p>
+        <h3>{{trans.outlet_name}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-padding" style="display: none;">
+    <h1>Recent Activity</h1>
+  </div>
+
+    <!-- <div 
+      id="mapId" 
+      style="height: 40%; width: 100%; border-radius: 10px; border: 1px solid rgb(195, 191, 191);">
+    </div>
+    <p style="text-align: center; color: grey;">Your Visit Position</p>
+     -->
+    <div style="display: none;" *ngFor="let trans of trans">
+      <ion-card (click)="showPanesDetail(
+        trans.transaction_id,
+        trans.username,
+        trans.code_sales,
+        trans.branch_name,
+        trans.depo_name,
+        trans.outlet_name,
+        trans.outlet_address,
+        trans.outlet_city,
+        trans.latitude,
+        trans.longitude,
+        trans.netto_order,
+        trans.created_date,
+        trans.confirm_date,
+        trans.status
+        )">
+        <ion-card-header>
+          <ion-card-subtitle>{{trans.transaction_id}}</ion-card-subtitle>
+          <ion-card-title>{{trans.outlet_name}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+  <!-- <div class="cupertino-pane" style="display: none;">
+    <div class="ion-padding">
+      <h1>Recent Activity</h1>
+    </div>
+    <div class="content ion-padding-bottom">
+      <div *ngFor="let item of trans">
+        <ion-card (click)="showPanesDetail(item)">
+          <ion-card-header>
+            <ion-card-subtitle>{{item.transaction_id}}</ion-card-subtitle>
+            <ion-card-title>{{item.outlet_name}}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </div>
+    </div>  
+  </div> -->
+
+  
+
+  <div class="cupertino-pane-detail" style="display: none;">
+    <div class="ion-padding">
+      <h1>Detail</h1>
+      <ion-label>
+        <p>{{det_transaction_id}}</p>
+        <h3>{{det_outlet_name}}</h3>
+      </ion-label>
+    </div>
+    <div class="content ion-padding-bottom">
+      
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">ID Transaction</ion-label>
+        <ion-input type="text" [(ngModel)]="det_transaction_id" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input type="text" [(ngModel)]="det_username" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Code Sales</ion-label>
+        <ion-input type="text" [(ngModel)]="det_code_sales" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Branch Name</ion-label>
+        <ion-input type="text" [(ngModel)]="det_branch_name" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Depo Name</ion-label>
+        <ion-input type="text" [(ngModel)]="det_depo_name" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet Name</ion-label>
+        <ion-input type="text" [(ngModel)]="det_outlet_name" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet Address</ion-label>
+        <ion-textarea rows="5" type="text" [(ngModel)]="det_outlet_address" readonly></ion-textarea>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Outlet City</ion-label>
+        <ion-input type="text" [(ngModel)]="det_outlet_city" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Latitude</ion-label>
+        <ion-input type="text" [(ngModel)]="det_latitude" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Longitude</ion-label>
+        <ion-input type="text" [(ngModel)]="det_longitude" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Netto Order</ion-label>
+        <ion-input type="text" [(ngModel)]="det_netto_order" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Create Date</ion-label>
+        <ion-input type="text" [(ngModel)]="det_created_date" readonly></ion-input>
+      </ion-item>
+
+      <ion-item class="ion-padding-top">
+        <ion-label position="stacked">Confirm Date</ion-label>
+        <ion-input type="text" [(ngModel)]="det_confirm_date" readonly></ion-input>
+      </ion-item>
+
+
+      <div class="ion-padding">
+        <ion-button (click)="closePanedetail()" expand="block" color="primary">
+          Close
+        </ion-button>
+      </div>
+
+      
+
+    </div>  
+
+    <!-- <div 
+      id="mapId" 
+      style="height: 40%; width: 100%; border-radius: 10px; border: 1px solid rgb(195, 191, 191);">
+    </div>
+    <p style="text-align: center; color: grey;">Your Visit Position</p> -->
+
+    <!-- 
+      <div id="mapId" style="width: 100%; height: 50%">
+      </div> 
+    -->
+  </div>
+
+</ion-content>

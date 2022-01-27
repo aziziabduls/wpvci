@@ -1,0 +1,16 @@
+ion-item {
+    border-radius: 15px;
+    // border-color: rgba(107, 27, 27, 0.808);
+    height: 65px;
+    box-shadow: 1px 5px 5px 0px rgba(207, 13, 13, 0.05);
+    --highlight-height: 0px;
+    // --background: rgba(255, 255, 255, 0);
+
+
+    ion-input, ion-select {
+        --padding-top: 20px;
+        --padding-bottom: 15px;
+        --padding-start: 5px;
+        // --background: rgba(255, 255, 255, 0);
+    }
+}

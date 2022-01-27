@@ -1,0 +1,7 @@
+{
+  "name": "wpvci",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

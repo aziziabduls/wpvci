@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="ion-padding">
+    <ion-item lines="none">
+      <ion-input type="text" autocapitalize="words" [(ngModel)]="fullname" placeholder="Full Name"></ion-input>
+    </ion-item>
+  </div>
+    
+  <div class="ion-padding">    
+    <ion-item lines="none">
+      <ion-input type="text" [(ngModel)]="username" placeholder="Username"></ion-input>
+    </ion-item>
+  </div>
+    
+  <div class="ion-padding">    
+    <ion-item lines="none">
+      <ion-input type="tel" [(ngModel)]="phone" placeholder="Phone"></ion-input>
+    </ion-item>
+  </div>
+    
+  <div class="ion-padding">    
+    <ion-item lines="none">
+      <ion-input type="text" [(ngModel)]="salescode" autocapitalize="characters" placeholder="Sales Code"></ion-input>
+    </ion-item>
+  </div>
+  <div class="ion-padding"> 
+    <ion-item lines="none">
+      <ion-select 
+        [(ngModel)]="selectedBranch"
+        (ionChange)="selectBranch($event)"
+        interface="action-sheet" 
+        placeholder="Select Branch">
+        <ion-select-option *ngFor="let branch of branch" value="{{branch.kdcabang}}">{{branch.namacabang}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  <div class="ion-padding"> 
+    <ion-item lines="none">
+      
+      <ion-select 
+        [(ngModel)]="selectedDepo"
+        (ionChange)="selectDepo($event)"
+        interface="action-sheet" 
+        placeholder="Select Depo">
+        <ion-select-option *ngFor="let depo of depo" value="{{depo.kddepo}}">{{depo.namadepo}}</ion-select-option>
+      </ion-select>
+
+    </ion-item>
+  </div>
+    
+  <div class="ion-padding">    
+    <ion-item lines="none">
+      <ion-input type="password" [(ngModel)]="crepassword" (ionChange)="onCrepassword($event)" placeholder="Create Password"></ion-input>
+    </ion-item>
+  </div>
+    
+  <div class="ion-padding">    
+    <ion-item lines="none">
+      <ion-input type="password" [(ngModel)]="conpassword" (ionChange)="onConpassword($event)" placeholder="Confirm Password"></ion-input>
+    </ion-item>
+    <ion-note *ngIf="passconfirm == 1" class="ion-padding-start" style="font-size: 11px; color: yellowgreen;">Password match</ion-note>
+    <ion-note *ngIf="passconfirm == 0" class="ion-padding-start" style="font-size: 11px; color: red;">Password didn't match</ion-note>
+    <ion-note *ngIf="passconfirm == 2" class="ion-padding-start" style="font-size: 11px; color: red;"></ion-note>
+  </div>
+    
+  <div class="ion-padding">
+    <ion-button (click)="tryRegist()" expand="block" color="dark" [disabled]="submitButton">
+      Submit
+    </ion-button>
+  </div>
+
+</ion-content>

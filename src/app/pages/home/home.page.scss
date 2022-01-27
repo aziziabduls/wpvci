@@ -1,0 +1,31 @@
+.mainButton {
+    height: 100px;
+  div {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+}
+
+ion-item {
+  --background: rgba(255, 255, 255, 0);
+}
+
+// ion-content, ion-toolbar{
+//   --background: #f2f2f2;
+// }
+
+// ion-item {
+//   border-radius: 15px;
+//   height: 65px;
+//   box-shadow: 5px 5px 5px 5px rgba(207, 13, 13, 0.05);
+//   --highlight-height: 0px;
+//   --background: rgba(255, 255, 255, 0);
+
+
+//   ion-input, ion-select, ion-textarea {
+//       --padding-top: 20px;
+//       --padding-bottom: 15px;
+//       --padding-start: 5px;
+//   }
+// }
